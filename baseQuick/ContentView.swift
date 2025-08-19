@@ -36,10 +36,11 @@ struct ContentView: View {
                     Text("input normal text...")
                         .foregroundStyle(Color.gray.opacity(0.5))
                 }
-                .textFieldStyle(.roundedBorder)
-                .navigationTitle("normal")
+                .textFieldStyle(.automatic)
+                .navigationTitle("base64 quick convert")
                 .offset(y: 80)
                 .padding(.horizontal, 8)
+                .padding(.bottom, 8)
             }
             .cornerRadius(8)
             
@@ -68,10 +69,11 @@ struct ContentView: View {
                     Text("input base64 text...")
                         .foregroundStyle(Color.gray.opacity(0.5))
                 }
-                .textFieldStyle(.roundedBorder)
+                .textFieldStyle(.automatic)
                 .navigationTitle("base64")
                 .offset(y: 80)
                 .padding(.horizontal, 8)
+                .padding(.bottom, 8)
             }
             .cornerRadius(8)
         }
@@ -80,6 +82,8 @@ struct ContentView: View {
         .frame(maxWidth: .infinity)
         .padding(.horizontal, 8)
         .padding(.vertical, 24)
+        .frame(minHeight: 800)
+        .frame(minWidth: 1200)
         .onChange(of: input) { newStr in
             let newOut = input.toBase64()
             if newOut != output {
