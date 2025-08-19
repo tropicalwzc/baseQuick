@@ -15,63 +15,68 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        HStack(spacing: 4) {
-            ZStack(alignment: .top) {
-                Color.blue.opacity(colorScheme == .dark ? 0.15 : 0.05)
-                if copiedWhich == .normal {
-                    Color.indigo.opacity(0.1 + CGFloat(copiedTime % 3) * 0.1)
-                }
-                Button {
-                    UIPasteboard.general.string = input
-                    withAnimation {
-                        copiedTime += 1
-                        copiedWhich = .normal
+        VStack(spacing: 4) {
+            TimeStampConvertView()
+
+                HStack(spacing: 4) {
+                    ZStack(alignment: .top) {
+                        Color.blue.opacity(colorScheme == .dark ? 0.15 : 0.05)
+                        if copiedWhich == .normal {
+                            Color.indigo.opacity(0.1 + CGFloat(copiedTime % 3) * 0.1)
+                        }
+                        Button {
+                            UIPasteboard.general.string = input
+                            withAnimation {
+                                copiedTime += 1
+                                copiedWhich = .normal
+                            }
+                        } label: {
+                            copyButton(which: .normal)
+                        }
+                        
+                        TextField(text: $input, axis: .vertical) {
+                            Text("input normal text...")
+                                .foregroundStyle(Color.gray.opacity(0.5))
+                        }
+                        .textFieldStyle(.roundedBorder)
+                        .navigationTitle("normal")
+                        .offset(y: 80)
+                        .padding(.horizontal, 8)
                     }
-                } label: {
-                    copyButton(which: .normal)
-                }
-                
-                TextField(text: $input, axis: .vertical) {
-                    Text("input normal text...")
-                        .foregroundStyle(Color.gray.opacity(0.5))
-                }
-                .textFieldStyle(.roundedBorder)
-                .navigationTitle("normal")
-                .offset(y: 80)
-                .padding(.horizontal, 8)
-            }
-            .cornerRadius(8)
-            
-            Rectangle()
-                .frame(width: 1)
-                .frame(maxHeight: .infinity)
-                .foregroundStyle(Color.gray.opacity(0.1))
-            
-            ZStack(alignment: .top) {
-                Color.blue.opacity(colorScheme == .dark ? 0.2 : 0.1)
-                if copiedWhich == .base64 {
-                    Color.cyan.opacity(0.1 + CGFloat(copiedTime % 3) * 0.1)
-                }
-                Button {
-                    UIPasteboard.general.string = output
-                    withAnimation {
-                        copiedTime += 1
-                        copiedWhich = .base64
+                    .cornerRadius(8)
+                    
+                    Rectangle()
+                        .frame(width: 1)
+                        .frame(maxHeight: .infinity)
+                        .foregroundStyle(Color.gray.opacity(0.1))
+                    
+                    ZStack(alignment: .top) {
+                        Color.blue.opacity(colorScheme == .dark ? 0.2 : 0.1)
+                        if copiedWhich == .base64 {
+                            Color.cyan.opacity(0.1 + CGFloat(copiedTime % 3) * 0.1)
+                        }
+                        Button {
+                            UIPasteboard.general.string = output
+                            withAnimation {
+                                copiedTime += 1
+                                copiedWhich = .base64
+                            }
+                        } label: {
+                            copyButton(which: .base64)
+                        }
+                        
+                        TextField(text: $output, axis: .vertical) {
+                            Text("input base64 text...")
+                                .foregroundStyle(Color.gray.opacity(0.5))
+                        }
+                        .textFieldStyle(.roundedBorder)
+                        .navigationTitle("base64")
+                        .offset(y: 80)
+                        .padding(.horizontal, 8)
                     }
-                } label: {
-                    copyButton(which: .base64)
+                    .cornerRadius(8)
                 }
-                
-                TextField(text: $output, axis: .vertical) {
-                    Text("input base64 text...")
-                        .foregroundStyle(Color.gray.opacity(0.5))
-                }
-                .textFieldStyle(.roundedBorder)
-                .navigationTitle("base64")
-                .offset(y: 80)
-                .padding(.horizontal, 8)
-            }
-            .cornerRadius(8)
+            
         }
         .foregroundStyle(colorScheme == .dark ? Color.white : Color.black)
         .font(.system(size: 16, weight: .medium))
