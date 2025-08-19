@@ -22,7 +22,7 @@ struct ContentView: View {
                     Color.indigo.opacity(0.1 + CGFloat(copiedTime % 3) * 0.1)
                 }
                 Button {
-                    UIPasteboard.general.string = input
+                    copy(str: input)
                     withAnimation {
                         copiedTime += 1
                         copiedWhich = .normal
@@ -30,6 +30,7 @@ struct ContentView: View {
                 } label: {
                     copyButton(which: .normal)
                 }
+                .padding(.top, 16)
                 
                 TextField(text: $input, axis: .vertical) {
                     Text("input normal text...")
@@ -53,7 +54,7 @@ struct ContentView: View {
                     Color.cyan.opacity(0.1 + CGFloat(copiedTime % 3) * 0.1)
                 }
                 Button {
-                    UIPasteboard.general.string = output
+                    copy(str: output)
                     withAnimation {
                         copiedTime += 1
                         copiedWhich = .base64
@@ -61,6 +62,7 @@ struct ContentView: View {
                 } label: {
                     copyButton(which: .base64)
                 }
+                .padding(.top, 16)
                 
                 TextField(text: $output, axis: .vertical) {
                     Text("input base64 text...")
@@ -104,7 +106,12 @@ struct ContentView: View {
             .foregroundStyle(Color.blue)
             .font(.system(size: 18, weight: .bold))
             .padding(16)
-            .padding(.top, 16)
+    }
+    
+    private func copy(str: String) {
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(str, forType: .string)
     }
 
 }
