@@ -85,7 +85,7 @@ struct ContentView: View {
         .frame(minHeight: 800)
         .frame(minWidth: 1200)
         .onChange(of: input) { newStr in
-            let newOut = input.toBase64()
+            let newOut = input.trimmingCharacters(in: .whitespacesAndNewlines).toBase64()
             if newOut != output {
                 withAnimation {
                     output = newOut
@@ -93,7 +93,7 @@ struct ContentView: View {
             }
         }
         .onChange(of: output) { newStr in
-            if let newOut = newStr.fromBase64() {
+            if let newOut = newStr.trimmingCharacters(in: .whitespacesAndNewlines).fromBase64() {
                 if newOut != input {
                     withAnimation {
                         input = newOut
